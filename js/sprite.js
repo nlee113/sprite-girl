@@ -16,10 +16,12 @@ class Sprite {
 
     }
 
-    draw(){
+    draw(state){
         var ctx = canvas.getContext('2d');
 
         //console.log(this.sprite_json[this.root_e][this.state][this.cur_frame]['w']);
+        console.log(state['key_change']);
+
         if(this.sprite_json[this.root_e][this.state][this.cur_frame]['img'] == null){
             console.log("loading");
             this.sprite_json[this.root_e][this.state][this.cur_frame]['img'] = new Image();
@@ -55,20 +57,32 @@ class Sprite {
             this.x = this.x + this.x_v;
             this.y = this.y + this.y_v;
         }
-
+        return false;
     }
 
     set_idle_state(){
         this.x_v = 0;
         this.y_v = 0;
-        const idle_state = ["idle","idleBackAndForth","idleBreathing","idleFall","idleLayDown","idleLookAround","idleLookDown","idleLookLeft","idleLookRight","idleLookUp","idleSit","idleSpin","idleWave"];
-
-        const random = Math.floor(Math.random() * idle_state.length);
-        console.log(idle_state[random]);
-        this.state = idle_state[random];
+        const idle_state = ["idle"];
     }
 
     bound_hit(side){
             this.set_idle_state();
    }
+    handleKeyDown(event) {
+        switch(event.key) {
+            case 'ArrowUp':
+                this.y_v = -10;
+                break;
+            case 'ArrowDown':
+                this.y_v = 10;
+                break;
+            case 'ArrowLeft':
+                this.x_v = -10;
+                break;
+            case 'ArrowRight':
+                this.x_v = 10;
+                break;
+        }
+    }
 }
